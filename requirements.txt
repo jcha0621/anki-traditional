@@ -1,3 +1,4 @@
+anki==2.1.46
 appdirs==1.4.4
 astroid==2.5.6
 attrs==21.2.0
