@@ -19,14 +19,17 @@ col = Collection(cpath)
 #     'Thing']
 
 # print(col.decks.all_names_and_ids())
+set = set()
 for deck_metadata in col.decks.all_names_and_ids():
     for tag in col.tags.byDeck(deck_metadata.id):
         for cid in col.find_notes(f'tag:{tag}'): 
             note = col.getNote(cid)
-            for i in range(8): # Only update up to Definition Typing Corrects
-                if note.fields[i] != HanziConv.toTraditional(note.fields[i]):
-                    note.fields[i] = note.fields[i] + '( '+ HanziConv.toTraditional(note.fields[i]) + ')'
-            col.update_note(note)
+            if cid not in set:
+                for i in range(8): # Only update up to Definition Typing Corrects
+                    if note.fields[i] != HanziConv.toTraditional(note.fields[i]):
+                        note.fields[i] = note.fields[i] + '( '+ HanziConv.toTraditional(note.fields[i]) + ')'
+                col.update_note(note)
+                set.add(cid)
 
 # Save changes to collection
 
