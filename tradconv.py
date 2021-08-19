@@ -24,7 +24,8 @@ for deck_metadata in col.decks.all_names_and_ids():
         for cid in col.find_notes(f'tag:{tag}'): 
             note = col.getNote(cid)
             for i in range(8): # Only update up to Definition Typing Corrects
-                note.fields[i] = note.fields[i] + '( 'HanziConv.toTraditional(note.fields[i]) + ')'
+                if not HanziConv.same(note.fields[i], HanziConv.toTraditional(note.fields[i])):
+                    note.fields[i] = note.fields[i] + '( '+ HanziConv.toTraditional(note.fields[i]) + ')'
             col.update_note(note)
 
 # Save changes to collection
